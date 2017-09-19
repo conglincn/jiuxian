@@ -5,7 +5,7 @@
 			
 	<div class="top">
 		<span class="tos"></span>
-		<input type="text" class="user" placeholder="请输入手机号码">
+		<input type="text" class="user" placeholder="请输入手机号码" v-model="phone">
 	</div>	
 
 	<div class="num">
@@ -21,7 +21,7 @@
 
 	<div class="pass">
 		<span class="tos"></span>
-		<input type="text" class="password" placeholder="请输入密码">
+		<input type="text" class="password" placeholder="请输入密码" v-model="password">
 	</div>
 
 	<div class="pass">
@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="btn">
-		<button>确认注册</button>
+		<button @click="reg">确认注册</button>
 		
 	</div>
 	</div>
@@ -40,18 +40,41 @@
 
 <script>
 import aaa from './module/home/header'
+import axios from 'axios'
+
 export default {
 
   name: 'register',
 
   data () {
     return {
-
+    	phone:"",
+    	password:""
     };
   },
   components: {
   	aaa
-  }
+  },
+  methods:{
+	reg(){
+		axios.post("/api/register","phone="+this.phone+"&password="+this.password)
+		.then(res=>{
+			console.log(res.data);
+			if(res.data){
+				alert("注册成功！");
+				this.$router.push('/home');
+			}
+		})
+		.catch(error=>{
+			console.log(error);
+			alert("注册失败！");
+		})
+	}
+	}
+
+
+	
+  
 };
 </script>
 
@@ -65,13 +88,14 @@ export default {
 .conter{
 	width:85%;
 	margin:px2rem(40px) auto;
+
 	input:focus{ outline:none; }
 
 
 	.top{
 		width:100%;
 		height:px2rem(40px);
-		margin-top:px2rem(20px);
+		margin-top:px2rem(60px);
 		border:px2rem(1px) solid #ccc;
 		border-radius: px2rem(3px);
 

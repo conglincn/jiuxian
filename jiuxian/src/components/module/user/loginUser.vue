@@ -18,7 +18,7 @@
 		
 	</div>
 	<div class="zhaohui">
-		<span class="s1" @click="regis">免费注册</span>
+		<span class="s1" @click="regis" >免费注册</span>
 		<span class="s2">找回密码</span>
 	</div>
 	<div class="qq">
@@ -47,9 +47,15 @@ export default {
   methods: {
   	regis(){
   		this.$router.push('/register')
+  	},
+
+
+
+
+
   	}
   }
-};
+
 </script>
 
 <style lang="scss" scoped>
@@ -195,18 +201,18 @@ export default {
 		list-style:none;
 		margin:px2rem(60px) auto;
 		li:nth-child(1){
-			width:px2rem(45px);
-			height:px2rem(45px);
+			width:px2rem(60px);
+			height:px2rem(60px);
 			float:left;
 			background: url("../../../assets/img/loginIcon.png") no-repeat;
-			background-position: px2rem(-67px) px2rem(-90px);
+			background-position: px2rem(-70px) px2rem(-90px);
 		}
 		li:nth-child(2){
-			width:px2rem(45px);
-			height:px2rem(45px);
+			width:px2rem(60px);
+			height:px2rem(60px);
 			float:right;
 			background: url("../../../assets/img/loginIcon.png") no-repeat;
-			background-position: px2rem(-138px) px2rem(-90px);
+			background-position: px2rem(-150px) px2rem(-90px);
 
 
 		}

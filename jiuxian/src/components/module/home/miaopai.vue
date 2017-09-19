@@ -24,7 +24,12 @@
 			
 		</div>
 		<div >
-			<ul class="allsp">
+			<ul class="allsp"  
+				v-infinite-scroll="loadMore"
+				  infinite-scroll-disabled="loading"
+				  infinite-scroll-distance="10"
+				  infinite-scroll-immediate-check=false
+				  >
 				<li v-for="all in alllist">
 				<img :src="all.commonProductInfo.imgPath" >
 				<p class="name">{{all.commonProductInfo.pname}}</p>
@@ -39,6 +44,9 @@
 
 <script>
 import axios from 'axios'
+import { InfiniteScroll } from 'mint-ui';
+import Vue from 'vue'
+Vue.use(InfiniteScroll);
 
 export default {
 
@@ -47,22 +55,37 @@ export default {
   data () {
     return {
     	datalist:[],
-    	alllist:[]
+    	alllist:[],
+    	loading:false,
+    	current:1
     }
+  },
+  methods:{
+  	loadMore(){
+  		console.log("加载新数据");
+  		this.loading = true;
+       this.current++;
+  		axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
+  			 this.alllist = [...this.alllist,...res.data.promoList]
+  			   this.loading = false;
+
+
+  		})
+
+  	}
   },
   mounted() {
   	  	axios.get("/api/homePage").then(res=>{
-  			console.log(res);
+  			
   		this.datalist = res.data.killProList
   	}),
-  	  	axios.get("/api/homeAll").then(res=>{
-  			console.log(res);
-  		this.alllist = res.data.hashMapList
+  	  	axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
+  			
+  		this.alllist = res.data.promoList;
+  		console.log(this.alllist)
   	})
 
-
-  }
-
+}
 };
 </script>
 
@@ -74,6 +97,7 @@ export default {
 #miaopai{
 	width:100%;
 	overflow:hidden;
+	margin-bottom:50px;
 	.ace{
 		width:100%;
 		overflow-x:scroll;

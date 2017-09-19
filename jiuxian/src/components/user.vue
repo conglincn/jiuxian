@@ -1,6 +1,6 @@
 <template>
 <div id="user">
-	<hand></hand>
+	<hand class="hhh"></hand>
 	<ul class="login">
 		<li ><router-link to="loginuser" tag="p" activeClass="active">
 		账号登录</router-link></li>
@@ -47,6 +47,10 @@ export default {
 		width:100%;
 		height:45px;
 		line-height: 45px;
+		margin-top:40px;
+		.hhh{
+			margin-top:40px;
+		}
 		li{
 			float:left;
 			list-style:none;

@@ -60,7 +60,7 @@ export default {
 			height:100%;
 			float:left;
 			background: url("../../../assets/img/loginIcon.png") no-repeat;
-			background-position: px2rem(-120px) px2rem(-20px);
+			background-position: px2rem(-130px) px2rem(-23px);
 
 		}
 
@@ -96,7 +96,7 @@ export default {
 
 		}
 		img{
-			margin-left:px2rem(100px);
+			margin-left:px2rem(60px);
 			float:left;
 		}
 		span{

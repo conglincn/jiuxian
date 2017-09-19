@@ -133,6 +133,7 @@ input:focus{ outline:none; }
 		justify-content:space-around;
 		padding-left:px2rem(5px);
 		align-items:center;	
+		background: #e5383b;
 			.logo{
 				width:px2rem(57px);
 				height:px2rem(27px);
@@ -162,10 +163,12 @@ input:focus{ outline:none; }
 				}
 				.txt{
 					float:right;
+					padding-left:15px;
 					width:88%;
 					height:100%;
 					border-style:none;
 					border-radius: px2rem(3px);
+					box-sizing: border-box;
 
 				}
 			}

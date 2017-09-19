@@ -1,7 +1,7 @@
 <template>
 <div id="baijiu">
 
-	<bbb></bbb>
+	<hand></hand>
 	<div class="imm">
 	<img src="../assets/img/i5.jpg" >
 	<img src="../assets/img/i6.jpg" >
@@ -23,12 +23,21 @@
 		<li class="l2">精品推荐</li>
 		<li class="l3"></li>
 	</ul>
-	<div>
-		<ul>
-			<li v-for="data in bailist">
-				<!-- <img :src="data." > -->
-			</li>
-		</ul>
+	<div class="bai">
+	<ul class="jiu"
+		v-infinite-scroll="loadMore"
+		infinite-scroll-disabled="loading"
+		infinite-scroll-distance="10"
+		infinite-scroll-immediate-check=false
+	>
+		<li v-for="data in bailist">
+			<img :src="data.commonProductInfo.imgPath" />
+			<span>
+			<p class="p1">{{data.commonProductInfo.pname}}</p>
+			<p class="p2">{{"￥"+data.commonProductInfo.jxPrice+".00"}}</p>
+			</span>
+		</li>
+	</ul>
 		
 	</div>
 	
@@ -37,25 +46,48 @@
 
 <script>
 import axios from 'axios'
+import { InfiniteScroll } from 'mint-ui';
+import Vue from 'vue'
+Vue.use(InfiniteScroll);
 
-import bbb from './module/home/header'
+
+import hand from './module/home/header'
 export default {
 
   name: 'baijiu',
 
   data () {
     return {
-    	bailist:[]
+    	bailist:[],
+    	current:1,
+    	loading:false
+
     };
   },
   components:{
-  	bbb,
+  	hand,
 
   },
+    methods:{
+	  	loadMore(){
+	  		console.log("加载新数据");
+	  		this.loading = true;
+	       this.current++;
+	  		axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
+	  			 this.bailist = [...this.bailist,...res.data.promoList]
+	  			   this.loading = false;
+
+
+	  		})
+
+	  	}
+  },
+
   mounted(){
-  	axios.get("/api/baijiuAll").then(res=>{
-  			console.log(res);
-  		// this.bailist = res.data.hashMapList
+  	  	axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
+  			
+  		this.bailist = res.data.promoList;
+  		console.log(this.bailist)
   	})
   }
 };
@@ -65,12 +97,13 @@ export default {
 @function px2rem($px){
   @return $px/100px *1rem;
 }
+
 #baijiu{
 	input:focus{ outline:none; }
 
 	.imm{
 		width:100%;
-		margin-top:20px;
+		margin-top:40px;
 		img{
 			width:50%;
 			float:left;
@@ -108,6 +141,43 @@ export default {
 			background-color: #A2A2A2;
 			margin-right:10px;
 		}
+	}
+	.bai{
+		width:98%;
+		height:3000px;
+		margin:0 auto;
+		.jiu{
+			width:100%;
+			list-style:none;
+			li{
+				width:100%;
+				display:flex;
+				padding:20px 0 0 0;
+				height:140px;
+				box-sizing: border-box;
+				border-bottom:1px solid #ccc;
+
+			img{
+				width:100px;
+				height:100px;
+				float:left;
+				display:block;
+			}
+			span{
+				float:right;
+				margin-left:10px;
+				.p1{
+					font-size:12px;
+					margin-top:10px;
+				}
+				.p2{
+					color: #fc5a5a;
+					font-size:20px;
+					margin-top:10px;
+				}
+			}
+		}
+	}
 	}
 
 }

@@ -35,7 +35,8 @@ export default {
           paginationClickable: true,
           spaceBetween: 30,
           mousewheelControl: true,
-          autoplay: 1000
+          autoplay: 1000,
+          loop:true
         }
     }
   },
