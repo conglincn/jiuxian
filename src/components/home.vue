@@ -17,12 +17,12 @@
 	</div>
 	<nav>
 		<ul>
-			<li v-for="data in datalist"  @click="nava(data.href)">
+			<li v-for="(data,index) in datalist"  @click="nava(data.href,index)">
 			<img :src="data.src" ></li>
 		</ul>
 	</nav>
      <ul class="mingjiu">
-	     <li v-for="data in mjlist"><img :src="data"  v-for="item of items"></li>
+	     <li v-for="(data,index) in mjlist"><img :src="data"  v-for="item of items"></li>
      </ul>
 
      <toutiao></toutiao>
@@ -52,7 +52,7 @@
 <script>
 import toutiao from './module/home/toutiao'
 import miaopai from './module/home/miaopai'
-
+import router from "../router"
 import 'vue-swipe/dist/vue-swipe.css';
 import { Swipe, SwipeItem } from 'vue-swipe';
 import '@/assets/iconfont/iconfont.css'
@@ -96,8 +96,9 @@ export default {
     miaopai
   },
   methods: {
-  	nava(href){
-	   	this.$router.push(href)		
+  	nava(href,title){
+	   	this.$router.push(href)
+	   	this.$store.commit("changetitle",title);
   	},
   	shouye(){
   		this.$router.push('/home')
@@ -106,7 +107,16 @@ export default {
   		this.$router.push('/fenlei')
   	},
   	user(){
-  		this.$router.push('/user')
+  		if(!localStorage.getItem("name")){
+	  		this.$router.push('/user')
+  		}else{
+  			this.$router.push('/myuser')
+  		}
+  	},
+  	changetitle(res){
+  		console.log("click")
+  		console.log(res)
+  		
   	}
   }
 };

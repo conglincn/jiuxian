@@ -5,7 +5,7 @@
 			
 	<div class="top">
 		<span class="tos"></span>
-		<input type="text" class="user" placeholder="请输入手机号码" v-model="phone">
+		<input type="text" class="user" placeholder="请输入手机号码" v-model="phone" maxlength="11">
 	</div>	
 
 	<div class="num">
@@ -26,7 +26,7 @@
 
 	<div class="pass">
 		<span class="tos"></span>
-		<input type="text" class="password" placeholder="请再次输入密码">
+		<input type="text" class="password" placeholder="请再次输入密码" v-model="queren">
 	</div>
 
 	<div class="btn">
@@ -49,27 +49,38 @@ export default {
   data () {
     return {
     	phone:"",
-    	password:""
-    };
+    	password:"",
+    	queren:"",
+    }
   },
   components: {
   	aaa
   },
   methods:{
 	reg(){
-		axios.post("/api/register","phone="+this.phone+"&password="+this.password)
+
+		if(this.password != this.queren){
+			alert("密码输入不一致")
+		}else if(this.phone.length==0&&this.password.length==0){
+			alert("输入框不能为空")
+		}else if(!(/^1[34578]\d{9}$/.test(this.phone))){
+			alert("请输入有效的手机号码")
+		}else{
+			axios.post("/api/register","phone="+this.phone+"&password="+this.password)
 		.then(res=>{
 			console.log(res.data);
 			if(res.data){
 				alert("注册成功！");
-				this.$router.push('/home');
+				this.$router.push('/user/loginuser');
 			}
 		})
 		.catch(error=>{
 			console.log(error);
 			alert("注册失败！");
 		})
-	}
+
+			}
+		}
 	}
 
 

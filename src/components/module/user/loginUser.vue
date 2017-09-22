@@ -2,11 +2,11 @@
 <div id="loginuser">
 	<div class="top">
 	<span class="tos"></span>
-	<input type="text" class="user" placeholder="用户名/邮箱/手机号">
+	<input type="text" class="user" placeholder="请输入手机号" v-model="phone" maxlength="11">
 	</div>
 	<div class="pass">
 	<span class="tos"></span>
-	<input type="text" class="password" placeholder="密码">
+	<input type="text" class="password" placeholder="密码" v-model="password">
 	</div>
 	<div class="num">
 		<input type="text" placeholder="验证码" class="number">
@@ -14,7 +14,7 @@
 		<span>换一张</span>
 	</div>
 	<div class="btn">
-		<button>登录</button>
+		<button @click="log">登录</button>
 		
 	</div>
 	<div class="zhaohui">
@@ -35,21 +35,40 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
 
   name: 'loginUser',
 
   data () {
     return {
-
+    	phone:"",
+    	password:"",
     };
   },
   methods: {
-  	regis(){
+  	regis(title){
   		this.$router.push('/register')
+
   	},
+  	log(){
+  		console.log(this.phone)
+  		console.log(this.password)
 
-
+    	axios.post("/api/login","phone="+this.phone+"&password="+this.password)
+		.then(res=>{
+			console.log(res.data)
+			if(res.data){
+				localStorage.setItem("name",this.phone)
+				alert("登录成功！");
+				this.$router.push('/');
+			}else{                      
+				alert("手机号或密码错误")
+			}
+		})
+	
+	}
+  	
 
 
 

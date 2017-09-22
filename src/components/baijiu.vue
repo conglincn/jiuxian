@@ -37,6 +37,8 @@
 			<p class="p2">{{"￥"+data.commonProductInfo.jxPrice+".00"}}</p>
 			</span>
 		</li>
+			<p class="sta">{{name}}</p>
+
 	</ul>
 		
 	</div>
@@ -60,7 +62,8 @@ export default {
     return {
     	bailist:[],
     	current:1,
-    	loading:false
+    	loading:false,
+    	name:"正在加载中……"
 
     };
   },
@@ -75,6 +78,11 @@ export default {
 	       this.current++;
 	  		axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
 	  			 this.bailist = [...this.bailist,...res.data.promoList]
+	  			if(res.data.promoList.length < 10){
+  				this.name = "亲~没有商品了"
+  				return;
+  			}
+
 	  			   this.loading = false;
 
 
@@ -87,7 +95,7 @@ export default {
   	  	axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
   			
   		this.bailist = res.data.promoList;
-  		console.log(this.bailist)
+  		// console.log(this.bailist)
   	})
   }
 };
@@ -149,6 +157,9 @@ export default {
 		.jiu{
 			width:100%;
 			list-style:none;
+			.sta{
+				text-align: center;
+			}
 			li{
 				width:100%;
 				display:flex;

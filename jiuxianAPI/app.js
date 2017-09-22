@@ -49,7 +49,7 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 
-//连接数据库
+//连接数据库k
 
 var mongodb = require("mongoose");
 mongodb.connect("mongodb://localhost:27017/jiuxian");

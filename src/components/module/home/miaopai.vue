@@ -26,15 +26,16 @@
 		<div >
 			<ul class="allsp"  
 				v-infinite-scroll="loadMore"
-				  infinite-scroll-disabled="loading"
+				  infinite-scroll-disabled=loading
 				  infinite-scroll-distance="10"
 				  infinite-scroll-immediate-check=false
 				  >
-				<li v-for="all in alllist">
+				<li v-for="all in alllist" :key="all.id" @click="goodsClick(all.commonProductInfo.pid,all.commonProductInfo.pname)">
 				<img :src="all.commonProductInfo.imgPath" >
 				<p class="name">{{all.commonProductInfo.pname}}</p>
 				<p class="age">{{"￥"+all.commonProductInfo.actPrice+".00"}}</p>
 				</li>
+				<p class="sta">{{name}}</p>
 			</ul>
 			
 		</div>
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+
 import axios from 'axios'
 import { InfiniteScroll } from 'mint-ui';
 import Vue from 'vue'
@@ -57,35 +59,50 @@ export default {
     	datalist:[],
     	alllist:[],
     	loading:false,
-    	current:1
+    	current:1,
+    	name:"正在加载中……",
+    	totalCount:0
     }
   },
+
+  mounted() {
+  	  	axios.get("/api/homePage").then(res=>{
+  			
+	  		this.datalist = res.data.killProList
+  	}),
+  	axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
+  			
+	  		this.alllist = res.data.promoList;
+	  		console.log(this.alllist)
+	  		this.totalCount = res.data.totalCount
+  	})
+
+},
   methods:{
+  	goodsClick(pid,name){
+  		// this.$router.push(`/goods/${pid}/${name}`)
+  		this.$router.push({name:'goods',query:{pid:pid,name:name}});
+  	},
   	loadMore(){
-  		console.log("加载新数据");
   		this.loading = true;
+  		// console.log("加载新数据");
        this.current++;
+       // if(this.current > this.totalCount){
+       // 		return;
+       // }
   		axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
-  			 this.alllist = [...this.alllist,...res.data.promoList]
-  			   this.loading = false;
+  			this.alllist = [...this.alllist,...res.data.promoList];
+  			if(res.data.promoList.length < 10){
+  				this.name = "亲~没有商品了"
+  				return;
+  			}
+  			this.loading = false;
 
 
   		})
 
   	}
   },
-  mounted() {
-  	  	axios.get("/api/homePage").then(res=>{
-  			
-  		this.datalist = res.data.killProList
-  	}),
-  	  	axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
-  			
-  		this.alllist = res.data.promoList;
-  		console.log(this.alllist)
-  	})
-
-}
 };
 </script>
 
@@ -151,6 +168,9 @@ export default {
 		display: flex;
 		flex-wrap:wrap;
 		justify-content:space-between;
+		.sta{
+			margin:20px auto;
+		}
 
 		li{
 			width:49.5%;

@@ -2,7 +2,7 @@
 <div id="hand">
 	<div class="header">
 		<span class="hand-img" @click="back"><img src="../../../assets/img/fanhui.jpg" ></span>
-		<span class="hand-text">{{name}}</span>
+		<span class="hand-text">{{headername}}</span>
 		<span class="hand-i" @click="handle"><i class="iconfont icon-fenlei1"></i></span>
 		
 	</div>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+
+import {mapState} from "vuex";
 import '@/assets/iconfont/iconfont.css'
 
 export default {
@@ -35,7 +37,7 @@ export default {
 
   data () {
     return {
-    	name:"选酒",
+
     	isShow:false
     }
   },
@@ -46,8 +48,12 @@ export default {
   	},
   	handle(){
   		this.isShow = !this.isShow
-  	}
+  	},
 
+  },
+
+  computed:{
+    ...mapState(["headername"])
   }
 
 };
@@ -82,6 +88,7 @@ export default {
 			height:45px;
 			position:absolute;
 			top:40px;
+			z-index: 99;
 			background-color: #efefef;
 		    color: #848d96;
 		    list-style:none;

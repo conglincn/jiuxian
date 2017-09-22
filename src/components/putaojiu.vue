@@ -1,20 +1,20 @@
 <template>
-<div id="yangjiu">
-
-	<bbb></bbb>
+<div id="putaojiu">
+	<hand></hand>
 	<div class="imm">
-	<img src="../assets/img/i5.jpg" >
-	<img src="../assets/img/i6.jpg" >
+	<img src="../assets/img/i7.jpg" class="i1">
+	<img src="../assets/img/i8.jpg" >
+	<img src="../assets/img/i9.jpg" >
 
 	</div>
 	<div class="btn">
-	<button>白兰地</button>
-	<button>威士忌</button>
-	<button>伏特加</button>
-	<button>龙舌兰</button>
-	<button>朗姆酒</button>
-	<button>预调酒</button>
-	<button>韩国烧酒</button>
+	<button>法国</button>
+	<button>澳大利亚</button>
+	<button>西班牙</button>
+	<button>智利</button>
+	<button>拉菲</button>
+	<button>奔富</button>
+	<button>张裕</button>
 	<button style="color:#de4943">查看全部</button>
 
 	</div>
@@ -23,14 +23,13 @@
 		<li class="l2">精品推荐</li>
 		<li class="l3"></li>
 	</ul>
-	<div class="bai">
-	<ul class="jiu"
+	<div class="putao">
+		<ul class="jiu"
 				v-infinite-scroll="loadMore"
-				infinite-scroll-disabled="loading"
-				infinite-scroll-distance="10"
-				infinite-scroll-immediate-check=false
-
-	>
+				  infinite-scroll-disabled="loading"
+				  infinite-scroll-distance="10"
+				  infinite-scroll-immediate-check=false
+				>
 		<li v-for="data in bailist">
 			<img :src="data.commonProductInfo.imgPath" />
 			<span>
@@ -38,6 +37,8 @@
 			<p class="p2">{{"￥"+data.commonProductInfo.jxPrice+".00"}}</p>
 			</span>
 		</li>
+		<p class="sta">{{name}}</p>
+
 	</ul>
 		
 	</div>
@@ -52,20 +53,23 @@ import Vue from 'vue'
 Vue.use(InfiniteScroll);
 
 
-import bbb from './module/home/header'
-
+import hand from './module/home/header'
 export default {
 
-  name: 'yangjiu',
+  name: 'putaojiu',
 
   data () {
     return {
     	bailist:[],
-    	current:1
+    	loading:false,
+    	current:1,
+    	name:"正在加载中……"
+
+
     };
   },
   components:{
-  	bbb,
+  	hand,
 
   },
     methods:{
@@ -75,6 +79,11 @@ export default {
 	       this.current++;
 	  		axios.get(`/api/homeAll?page=${this.current}`).then(res=>{
 	  			 this.bailist = [...this.bailist,...res.data.promoList]
+	  			if(res.data.promoList.length < 10){
+  				this.name = "亲~没有商品了"
+  				return;
+  			}
+
 	  			   this.loading = false;
 
 
@@ -89,25 +98,27 @@ export default {
   		this.bailist = res.data.promoList;
   		console.log(this.bailist)
   	})
-  }
-
-};
+  }};
 </script>
 
 <style lang="scss" scoped>
-
 @function px2rem($px){
   @return $px/100px *1rem;
 }
-#yangjiu{
+#putaojiu{
 	input:focus{ outline:none; }
 
 	.imm{
 		width:100%;
 		margin-top:40px;
+		height:177px;
+		.i1{
+			height:100%;
+		}
 		img{
 			width:50%;
 			float:left;
+			height:50%;
 		}
 	}
 	.btn{
@@ -143,7 +154,7 @@ export default {
 			margin-right:10px;
 		}
 	}
-	.bai{
+	.putao{
 		width:98%;
 		height:3000px;
 		margin:0 auto;
@@ -157,13 +168,12 @@ export default {
 				height:140px;
 				box-sizing: border-box;
 				border-bottom:1px solid #ccc;
-
-			img{
+				img{
 				width:100px;
 				height:100px;
 				float:left;
 				display:block;
-			}
+				}
 			span{
 				float:right;
 				margin-left:10px;
@@ -179,6 +189,7 @@ export default {
 			}
 		}
 	}
+
 	}
 
 }

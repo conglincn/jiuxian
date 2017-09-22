@@ -16,13 +16,7 @@ router.get('/homePage', function(req,res,next){
 })
 
 //首页商品   白酒    葡萄酒
-//router.get('/homeAll', function(req,res,next){
-//    spider("/m_v1/statics/getzx.htm?topicId=1165&pageNum=1", function(data){
-//        // console.log(data);
-//        res.send(data);
-//    })
-//})
-//
+
 router.get('/homeAll', function(req,res,next){
 
     spider("/m_v1/statics/getzx.htm?topicId=1165&pageNum="+req.query.page, function(data){
@@ -65,6 +59,13 @@ router.get('/laojiu', function(req,res,next){
     })
 })
 
+//详情
+router.get('/goods', function(req,res,next){
+    spider("/m_v1/goods/detailPromo/"+req.query.id, function(data){
+        // console.log(data);
+        res.send(data);
+    })
+})
 
 
 
@@ -91,6 +92,7 @@ router.post('/register',function(req,res,next){
         }
     })
 })
+
 
 //登录
 router.post('/login',function(req,res){

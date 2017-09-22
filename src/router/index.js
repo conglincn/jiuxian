@@ -14,6 +14,8 @@ import Jumingjiu from '@/components/jumingjiu'
 import Fenlei from '@/components/fenlei'
 import User from '@/components/user'
 import Register from '@/components/register'
+import Myuser from '@/components/myUser'
+import Goods from '@/components/goods'
 
 import Loginuser from '@/components/module/user/loginUser'
 import Loginphone from '@/components/module/user/loginPhone'
@@ -82,6 +84,17 @@ export default new Router({
     {
     path: "/fenlei",
     component:Fenlei
+
+    },
+    {
+    path: "/myuser",
+    component:Myuser
+
+    },
+    {
+    path: "/goods",
+    component:Goods,
+    name: 'goods'
 
     },
     //登录
